@@ -34,8 +34,7 @@ public class ATM implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onInteract(PlayerInteractEvent e){
-		if(e.getClickedBlock() != null){
-			if(e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN || e.getClickedBlock().getType() == Material.SIGN_POST){
+			if(e.getClickedBlock() instanceOf Sign) {
 				Sign sign = (Sign) e.getClickedBlock().getState();	
 				if(sign.getLine(0).equalsIgnoreCase(Main.finalconfig.getString("atm_title"))){
 					if(!e.getPlayer().hasPermission("tim.atm.use")){
@@ -44,7 +43,7 @@ public class ATM implements Listener {
 						this.openGUI(e.getPlayer());
 					}
 				}
-			}
+			
 		}
 	}
 	@EventHandler
@@ -87,7 +86,7 @@ public class ATM implements Listener {
 				}
 				ItemStack is = new ItemStack(Material.GOLD_NUGGET, 1);
 				ItemMeta im = is.getItemMeta();
-				im.setDisplayName("§cBank balance: " + getBankbalance(e.getWhoClicked().getName() + "_TimBANK"));
+				im.setDisplayName("Â§cBank balance: " + getBankbalance(e.getWhoClicked().getName() + "_TimBANK"));
 				is.setItemMeta(im);
 				e.getInventory().setItem(4, is);
 			}
@@ -98,7 +97,7 @@ public class ATM implements Listener {
 			return Main.economy.getBalance(name);
 	}
 	private void openGUI(Player player) {
-		Inventory atm_gui = Bukkit.createInventory(null, 9, "§cATM");
+		Inventory atm_gui = Bukkit.createInventory(null, 9, "Â§cATM");
 		
 		//
 		ItemStack is = new ItemStack(Material.GOLD_NUGGET, 1);
@@ -111,7 +110,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.CLAY_BRICK, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " §a" + Main.economy.format(10));
+		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " Â§a" + Main.economy.format(10));
 		List<String> lore = new ArrayList<String>();
 		lore.add("10");
 		im.setLore(lore);
@@ -121,7 +120,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.IRON_INGOT, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") +  " §a" + Main.economy.format(100));
+		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") +  " Â§a" + Main.economy.format(100));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("100");
@@ -132,7 +131,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.GOLD_INGOT, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " §a" + Main.economy.format(1000));
+		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " Â§a" + Main.economy.format(1000));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("1000");
@@ -143,7 +142,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.DIAMOND, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " §a" + Main.economy.format(10000));
+		im.setDisplayName(Main.finalconfig.getString("atm_withdraw") + " Â§a" + Main.economy.format(10000));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("10000");
@@ -155,7 +154,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.CLAY_BRICK, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " §4" + Main.economy.format(10));
+		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " Â§4" + Main.economy.format(10));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("10");
@@ -166,7 +165,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.IRON_INGOT, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " §4" + Main.economy.format(100));
+		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " Â§4" + Main.economy.format(100));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("100");
@@ -177,7 +176,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.GOLD_INGOT, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " §4" + Main.economy.format(1000));
+		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " Â§4" + Main.economy.format(1000));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("1000");
@@ -188,7 +187,7 @@ public class ATM implements Listener {
 		//
 		is = new ItemStack(Material.DIAMOND, 1);
 		im = is.getItemMeta();
-		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " §4" + Main.economy.format(10000));
+		im.setDisplayName(Main.finalconfig.getString("atm_deposit") + " Â§4" + Main.economy.format(10000));
 		lore.clear();
 		lore = new ArrayList<String>();
 		lore.add("10000");
@@ -206,20 +205,20 @@ public class ATM implements Listener {
 	@EventHandler
 	public void onSign(final SignChangeEvent e){
 		final Block b = e.getBlock();
-		if(b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST){
+		if(b instanceOf Sign){
 			pl.getServer().getScheduler().scheduleAsyncDelayedTask(pl, new Runnable(){
 				public void run(){
-					if(b.getType() == Material.WALL_SIGN || b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST){
+					if(b instanceOf Sign){
 						Sign sign = (Sign) e.getBlock().getState();
 						if(sign.getLine(0).equalsIgnoreCase("[atm]")){
 							if(!e.getPlayer().hasPermission("tim.atm.place")){
-								e.getPlayer().sendMessage("§cYou dont have permissions to build ATM's!");
+								e.getPlayer().sendMessage("Â§cYou dont have permissions to build ATM's!");
 								sign.setLine(0, "");
 								return;
 							}else{
-								sign.setLine(0, "§cATM");
+								sign.setLine(0, "Â§cATM");
 								sign.update();
-								e.getPlayer().sendMessage("§2ATM created! (You can also write something in the Lins 2-4)");
+								e.getPlayer().sendMessage("Â§2ATM created! (You can also write something in the Lins 2-4)");
 							}
 						}
 					}
